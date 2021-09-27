@@ -1,0 +1,46 @@
+//Data and key to string array
+        String[] dividendArr = data.split("");
+        String[] divisorArr = key.split("");
+
+        int[] dividendElements = stringToIntArr(data);
+        int[] divisorElements = stringToIntArr(key);
+
+        /** string[] -> int[]
+        //Data and key to int arrays
+        for (int i = 0; i < dividendArr.length; i++)
+        {
+            if (i < divisorArr.length)
+            {
+                dividendElements[i] = Integer.parseInt(dividendArr[i]);
+                divisorElements[i] = Integer.parseInt(divisorArr[i]);
+            }
+            else
+                dividendElements[i] = Integer.parseInt(dividendArr[i]);
+        }
+        */
+
+        int[] current = new int[data.length()]; //Placeholder size
+
+        //First iteration
+        for (int i = 0; i < divisorElements.length; i++)
+            current[i] = dividendElements[i] ^ divisorElements[i];
+
+        //First check (checking if first xor results are zeroes)
+        int sum = 0;
+        boolean zeroCheck = false;
+        for (int i = 0; i < divisorElements.length; i++)
+            sum += current[i];
+        zeroCheck = sum > 0;
+        if (zeroCheck)
+            for (int i = divisorElements.length; i < divisorElements.length*2; i++)
+                current[divisorElements.length-i] =
+                        dividendElements[divisorElements.length-i] ^ divisorElements[divisorElements.length-i];
+        if (!zeroCheck)
+            for (int i = 1; i < divisorElements.length+1; i++)
+                current[i-1] = current[i-1] ^ divisorElements[i-1];
+
+        if (zeroCheck)
+            for (int i = 0; i < divisorElements.length; i++)
+            {
+                current[i] = current[i] ^ divisorElements[i];
+            }
