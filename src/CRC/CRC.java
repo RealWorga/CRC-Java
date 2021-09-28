@@ -259,7 +259,7 @@ public class CRC
         System.out.println("Key:                            " + crc.getKey());
         System.out.println("Encoded message:                " + crc.encodeMessage());
         System.out.println("---------------------------------------------------------");
-        crc.generateErrors(1,false, 20);
+        crc.generateErrors(2,false, 100);
         System.out.println("sending message...");
         System.out.println("---------------------------------------------------------");
         System.out.println("Message received:               " + crc.getEncodedMessage());
@@ -279,18 +279,19 @@ public class CRC
 
             gx = gx1.plus(gx2).plus(gx3).plus(gx4).plus(gx5); //x^4 + x^3 + x^2 + 1
 
-            int simSum = 0;
 
-            int simulations = 10000000;
+
+            int simSum = 0;
+            int simulations = 1000000;
 
             for (int i = 0; i < simulations; i++)
-                if (!new CRC(generateRandomMessage(9, gx), gx).checkMessage(true))
+                if (!new CRC(generateRandomMessage(gx.degree()*2+1, gx), gx).checkMessage(true))
                     simSum++;
 
             double simulatedP = (100.0)*((double)simSum/simulations);
             System.out.println(simulatedP+"% of random messages were detected with an error");
             double analyticalP = (1 - 1/(Math.pow(2.0, (double) gx.degree())))*100.0;
-            System.out.println("From an analytic standpoint this probability sould lie close to 1 - 1/2^k = 1 - 1/N = " + analyticalP + "%");
+            System.out.println("From an analytic standpoint this probability should lie close to 1 - 1/2^k = 1 - 1/N = " + analyticalP + "%");
             System.out.println("Difference: " + Math.abs(analyticalP - simulatedP) + "%");
 
         }
