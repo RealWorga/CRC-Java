@@ -281,7 +281,7 @@ public class CRC
 
             int simSum = 0;
 
-            int simulations = 1000000;
+            int simulations = 10000000;
 
             for (int i = 0; i < simulations; i++)
                 if (!new CRC(generateRandomMessage(9, gx), gx).checkMessage(true))
